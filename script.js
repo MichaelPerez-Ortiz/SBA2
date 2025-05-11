@@ -128,8 +128,11 @@ if(course.id !== ag.course_id){
                     if (dueDate > currentDate){
                         continue;
                     }
+                } else{
+                    return "Assignment is not due";
                 }
-
+                        // console.log(isAssignmentDue)
+                        
                 assignments = ag.assignments[i];
             }
                 
