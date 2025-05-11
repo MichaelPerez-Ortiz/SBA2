@@ -86,9 +86,9 @@ const CourseInfo = {
 //get unique learner ids
   const uniqueLearnerIds = [];
 
-    for(let i = 0; i < learnerId.length; i++){
-        if (!uniqueLearnerIds.includes(learnerId[i])){
-            uniqueLearnerIds.push(learnerId[i]);
+    for(let id of learnerId){
+        if (!uniqueLearnerIds.includes(id)){
+            uniqueLearnerIds.push(id);
         }
     }
         //    console.log(uniqueLearnerIds) 
@@ -104,14 +104,29 @@ const CourseInfo = {
         // console.log(learnerObjects)
 
 //assignments
+if(course.id !== ag.course_id){
+    throw new Error("Invalid: Course ID does not match the Assignment Group");
+}
+
+
+
     for (let i = 0; i < submissions.length; i++){
         let submission = submissions[i];
 
+            let assignments;
 
-    let assignments;
+        const isAssignmentDue = true;
 
         for (let i = 0; i < ag.assignments.length; i++){
             if (ag.assignments[i].id === submission.assignment_id){
+                if(isAssignmentDue){
+                    let currentDate = new Date();
+                    const dueDate = new Date(ag.assignments[i].due_at);
+                    if (dueDate > currentDate){
+                        continue;
+                    }
+                }
+
                 assignments = ag.assignments[i];
             }
                 
@@ -120,18 +135,27 @@ const CourseInfo = {
             
         let learnerObj;
 
-        for (let i = 0; i < learnerObjects.length; i++) {
-            if (learnerObjects[i].id === submission.learner_id) {
-                learnerObj = learnerObjects[i];
-
-
+        if (assignments){
+            for (let i = 0; i < learnerObjects.length; i++) {
+                if (learnerObjects[i].id === submission.learner_id) {
+                    learnerObj = learnerObjects[i];
+                }
+            }
         // console.log(learnerObj)
+    } else {
+        continue;
     }
 
-}
+
 
 //grades avg
         let score = submission.submission.score;
+
+//late submissions
+            if(submission.submission.submitted_at > assignments.due_at){
+                score = score * 0.9; // - 15 gives the results shown but the assignment says 10 % which * 0.9 does
+            }
+
 
         let pointsPossible = assignments.points_possible;
         let totalScore = score / pointsPossible;
@@ -193,3 +217,5 @@ console.log(result);
     //     2: 0.833 // late: (140 - 15) / 150
     //   }
     // ];
+
+    
