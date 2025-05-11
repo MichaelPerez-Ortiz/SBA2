@@ -78,6 +78,9 @@ const CourseInfo = {
       
   
   function getLearnerData(course, ag, submissions) {
+try {
+
+
 //learner submissions
 
 //get all learner ids
@@ -153,7 +156,7 @@ if(course.id !== ag.course_id){
 
 //late submissions
             if(submission.submission.submitted_at > assignments.due_at){
-                score = score * 0.9; // - 15 gives the results shown but the assignment says 10 % which * 0.9 does
+                score = score - 15; // - 15 gives the results shown but the assignment says 10 % which * 0.9 does
             }
 
 
@@ -195,6 +198,13 @@ if(course.id !== ag.course_id){
 
    
     return finalGrade;
+
+} catch (error){
+    console.error("An error has occured" , error);
+    throw error;
+}
+
+
 }
 
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
