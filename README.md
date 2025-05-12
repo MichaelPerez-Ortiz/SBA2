@@ -22,13 +22,13 @@ Replaced the learner_id for loop with a for of loop
 
 Wrapped everything in a try/catch statement 
 
-Made it so an error is thrown when a course id and assignment group do not belong together.
+Added a way keep the decimal points at a max of 3 using .toFixed and parseFloat to keep the averages from being strings.
 
 
-///To Do
 
-Now I have to find a way keep the decimal points at a max of 3
+//Temporarily Abandoned
 
-Still have to fix the object order for some reason the assignments are coming before the learner id.
+From what I read it seems like I might have to change a bunch of code to fix the object order so I decided not to risk breaking everything.
 
-Have to account for potential errors in the data that the program receives. What if points_possible is 0? You cannot divide by zero. What if a value that you are expecting to be a number is instead a string? 
+Commented out the lines that made it so an error is thrown when a course id and assignment group do not belong together because Im not entirely sure how to make sure its working.
+I also stopped trying to account for potential errors in the data that the program receives for the same reason.

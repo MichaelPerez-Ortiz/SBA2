@@ -81,8 +81,6 @@ const CourseInfo = {
 try {
 
 
-//learner submissions
-
 //get all learner ids
     let learnerId = submissions.map(id => id.learner_id);
 
@@ -107,9 +105,10 @@ try {
         // console.log(learnerObjects)
 
 //assignments
-if(course.id !== ag.course_id){
-    throw new Error("Invalid: Course ID does not match the Assignment Group");
-}
+
+// if(course.id !== ag.course_id){
+//     throw new Error("Invalid: Course ID does not match the Assignment Group");
+// }
 
 
 
@@ -164,7 +163,7 @@ if(course.id !== ag.course_id){
 
 
         let pointsPossible = assignments.points_possible;
-        let totalScore = score / pointsPossible;
+        let totalScore = parseFloat( ((score / pointsPossible).toFixed(3)));
 
 
         learnerObj.assignments[assignments.id] = totalScore;
@@ -181,17 +180,17 @@ if(course.id !== ag.course_id){
             let learner = learnerObjects[i];
             let learners = {
                 id: learner.id ,
-                average: learner.totalPoints / learner.totalPointsPossible
-            };
+                average: parseFloat( ((learner.totalPoints / learner.totalPointsPossible).toFixed(3)))};
 //grades
 
             for (let i = 0; i < ag.assignments.length; i++) {
                     let assignment = ag.assignments[i];
                    if(learner.assignments[assignment.id]){
-                    learners[assignment.id] = learner.assignments[assignment.id];
+                    learners[assignment.id] = parseFloat((learner.assignments[assignment.id].toFixed(3)));
                    } 
 
             }
+            
                 finalGrade.push(learners);
 
         }
@@ -213,22 +212,3 @@ if(course.id !== ag.course_id){
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
 
 console.log(result);
-
-
-
-//   const result = [
-    //   {
-    //     id: 125,
-    //     avg: 0.985, // (47 + 150) / (50 + 150)
-    //     1: 0.94, // 47 / 50
-    //     2: 1.0 // 150 / 150
-    //   },
-    //   {
-    //     id: 132,
-    //     avg: 0.82, // (39 + 125) / (50 + 150)
-    //     1: 0.78, // 39 / 50
-    //     2: 0.833 // late: (140 - 15) / 150
-    //   }
-    // ];
-
-    
